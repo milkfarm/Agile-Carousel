@@ -24,6 +24,7 @@
       control_set_4: "",
       control_set_5: "",
       elements_container: "",
+      paused: false,
     };
 
     options = $.extend(defaults, options);
@@ -76,6 +77,7 @@
       var transition_type = options.transition_type;
       var transition_time = options.transition_time;
       var timer = options.timer;
+      var paused = options.paused;
       var content = "";
       var obj_inner = "";
       var content_button = "";
@@ -148,7 +150,7 @@
       ////////////////////////
       // Pause Button
       //////////////////////// 
-      ac_pause += "<span class='pause_button slide_button pause' data-options='{\"button_type\":\"pause_button\",\"trigger_type\": \"none\",\"disabled\": false,\"paused\": false}'>Pause</span>";
+      ac_pause += "<span class='pause_button slide_button pause' data-options='{\"button_type\":\"pause_button\",\"trigger_type\": \"none\",\"disabled\": false,\"paused\": " + paused + "}'>Pause</span>";
 
       ////////////////////////
       // Previous Button
@@ -812,12 +814,12 @@
       var agile_carousel_buttons_click = obj.find(".ac_click");
       var agile_carousel_buttons_hover = obj.find(".ac_hover");
 
+      var pause_button = obj.find(".pause_button");
+
       // start timer
       if(timer !== 0){
         ac_timer = setInterval(timer_transition, timer);
       }
-
-      var pause_button = obj.find(".pause_button");
 
       function pause_slideshow() {
         if(pause_button.length > 0){
@@ -827,6 +829,11 @@
         }
         clearInterval(ac_timer);
       } // function
+
+      // initial pause state
+      if(paused === true){
+        pause_slideshow();
+      }
 
       /////////////////
       //////// click button
@@ -838,7 +845,7 @@
           transition_slides($(this).data().options);
         } else {
           $this = $(this);
-          // don't use timer on next & previous buttons... causes strage, infinite cycle
+          // don't use timer on next & previous buttons... causes strange, infinite cycle
           if($this.data("options").button_action != "next" && $this.data("options").button_action != "previous") {
             function check_transition(){
 
@@ -869,7 +876,6 @@
           $this = $(this);
 
           function check_transition(){
-
             if(ac_slides_container.find(':animated').length < 1){
               transition_slides($this.data().options);
               clearInterval($this.data("options").timeout);
