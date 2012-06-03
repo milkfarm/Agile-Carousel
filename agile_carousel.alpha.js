@@ -912,10 +912,12 @@
 
       function play_slideshow() {
         clearInterval(ac_timer);
-        pause_button.html("pause");
-        pause_button.data("options").paused = false;
-        pause_button.addClass("pause_button");
-        pause_button.removeClass("play_button");
+        if(pause_button.length > 0){
+          pause_button.html("pause");
+          pause_button.data("options").paused = false;
+          pause_button.addClass("pause_button");
+          pause_button.removeClass("play_button");
+        }
         transition_slides(timer_data);
         ac_timer = setInterval(timer_transition, timer);
         return ac_timer;
