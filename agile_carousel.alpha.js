@@ -24,9 +24,8 @@
       control_set_4: "",
       control_set_5: "",
       elements_container: "",
-      paused: false,
+      paused: false
     };
-
     options = $.extend(defaults, options);
 
     return this.each(function () {
